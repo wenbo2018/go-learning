@@ -8,6 +8,8 @@ import (
 	"os"
 	"strconv"
 	// "time"
+	"sort"
+	"time"
 )
 
 type Info struct {
@@ -22,15 +24,15 @@ var (
 )
 
 func main() {
-	// t0 := time.Now()
-	// defer func() {
-	//         fmt.Printf("%v\n", time.Now().Sub(t0))
-	// }()
+	 t0 := time.Now()
+	 defer func() {
+	         fmt.Printf("%v\n", time.Now().Sub(t0))
+	 }()
 
 	slist := GetInfos()
-	//sort.Slice(slist, func(i, j int) bool {
-	//	return slist[i].Size < slist[j].Size
-	//})
+	sort.Slice(slist, func(i, j int) bool {
+		return slist[i].Size < slist[j].Size
+	})
 
 	fmt.Printf("%5s %9s %s\n", "PID", "SWAP", "COMMAND")
 	var total int64
@@ -94,9 +96,7 @@ func GetInfo(pid int) (info Info, err error) {
 	return
 }
 
-
 var units = []string{"", "K", "M", "G", "T"}
-
 
 func FormatSize(s int64) string {
 	unit := 0
