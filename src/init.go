@@ -20,5 +20,7 @@ func Diagonal(len, wid float64) float64 {
 }
 
 func main() {
-
+	hmap := make(map[string]string);
+	hmap["shen"] = "shenwenbo"
+	fmt.Print(hmap["shen"])
 }

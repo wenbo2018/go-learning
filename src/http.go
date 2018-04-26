@@ -1,25 +1,33 @@
 package main
 
 import (
-	"log"
 	"net/http"
+
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 )
 
-func timeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("The time is: " + r.Host ))
-}
-
-
-
-
 func main() {
-	mux := http.NewServeMux()
+	// Echo instance
+	e := echo.New()
+	// Middleware
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
-	// Convert the timeHandler function to a HandlerFunc type
-	th := http.HandlerFunc(timeHandler)
-	// And add it to the ServeMux
-	mux.Handle("/time", th)
+	// Route => handler
+	//e.GET("/", func(c echo.Context) error {
+	//	return c.String(http.StatusOK, "Hello, World!\n")
+	//})
+	e.GET("/user/:id", getUser);
 
-	log.Println("Listening...")
-	http.ListenAndServe(":3000", mux)
+	// Start server
+	e.Logger.Fatal(e.Start(":1323"))
 }
+
+// e.GET("/users/:id", getUser)
+func getUser(c echo.Context) error {
+	// User ID from path `users/:id`
+	id := c.Param("id")
+	return c.String(http.StatusOK, id)
+}
+
